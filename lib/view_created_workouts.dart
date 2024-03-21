@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:workout_app/view_workout_page.dart';
 
 class ViewCreatedWorkoutsPage extends StatefulWidget {
   @override
@@ -31,7 +32,13 @@ class _ViewCreatedWorkoutsPageState extends State<ViewCreatedWorkoutsPage> {
   }
 
   void _viewWorkout(int workoutId) {
-    // Implement navigation to view workout details page
+    Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => ViewWorkoutPage(workoutId: workoutId),
+  ),
+);
+
   }
 
   void _editWorkout(int workoutId) {

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class TodaysWorkoutPage extends StatefulWidget {
+class ViewWorkoutPage extends StatefulWidget {
   final int workoutId;
 
-  const TodaysWorkoutPage({Key? key, required this.workoutId}) : super(key: key);
+  const ViewWorkoutPage({Key? key, required this.workoutId}) : super(key: key);
 
   @override
-  _TodaysWorkoutPageState createState() => _TodaysWorkoutPageState();
+  _ViewWorkoutPageState createState() => _ViewWorkoutPageState();
 }
 
-class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
+class _ViewWorkoutPageState extends State<ViewWorkoutPage> {
   late String workoutTitle;
   late List<Map<String, dynamic>> lifts;
   bool _isLoading = true;
@@ -55,7 +55,7 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Today\'s Workout'),
+        title: Text('View Workout'),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator()) // Show loading indicator while fetching data

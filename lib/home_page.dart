@@ -6,6 +6,7 @@ import 'package:workout_app/calendar_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:workout_app/no_workout_scheduled.dart';
 import 'package:workout_app/todays_workout_page.dart';
+import 'package:workout_app/view_created_workouts.dart';
 
 import 'dart:convert';
 
@@ -33,6 +34,17 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Text('Go to Calendar Page'),
+            ),
+            
+             SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ViewCreatedWorkoutsPage()), // Replace ViewCreatedWorkoutsPage with the actual page
+                );
+              },
+              child: Text('View Created Workouts'),
             ),
             SizedBox(height: 10),
             ElevatedButton(
