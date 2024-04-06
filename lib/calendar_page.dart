@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:table_calendar/table_calendar.dart'; // Import the table_calendar package
-import 'package:workout_app/bottom_navbar.dart'; // Import your bottom navigation bar
+import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:workout_app/view_workout_page.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -12,35 +12,90 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   late DateTime _currentDate;
-  Map<DateTime, List<int>> _workoutIds = {};
+  List<dynamic> _calendarData = []; // Store response data here
 
   @override
   void initState() {
     super.initState();
     _currentDate = DateTime.now();
-    _fetchWorkoutIds();
+    _fetchCalendarData();
   }
 
-  Future<void> _fetchWorkoutIds() async {
+  Future<void> _fetchCalendarData() async {
     final response = await http.get(Uri.parse('http://localhost:3000/calendar/'));
-      print('API Response: ${response.body}'); 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       setState(() {
-        _workoutIds.clear();
-        for (var entry in data) {
-          final date = DateTime.parse(entry['DATE']);
-          final workoutId = entry['Workout_ID'] as int;
-          if (_workoutIds[date] == null) {
-            _workoutIds[date] = [workoutId];
-          } else {
-            _workoutIds[date]!.add(workoutId);
-          }
-        }
+        _calendarData = data;
       });
     } else {
-      print('Failed to fetch workout IDs');
+      print('Failed to fetch calendar data');
     }
+  }
+
+  Future<String?> getWorkoutTitle(int workoutId) async {
+    try {
+      final response = await http.get(Uri.parse('http://localhost:3000/workout/$workoutId'));
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        return data['TITLE'];
+      } else {
+        print('Failed to fetch workout title');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching workout title: $e');
+      return null;
+    }
+  }
+
+  Future<void> showWorkoutTitle(BuildContext context, int workoutId) async {
+    String? workoutTitle = await getWorkoutTitle(workoutId);
+    if (workoutTitle != null) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Workout Title'),
+          content: Text(workoutTitle),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ViewWorkoutPage(workoutId: workoutId)),
+                );
+              },
+              child: Text('View Workout'),
+            ),
+          ],
+        );
+      },
+    );
+  } else {
+      // Handle error or display a message indicating failure to fetch workout title
+    }
+  }
+
+  int? getWorkoutIdForDate(DateTime selectedDate) {
+    String selectedDateString = DateFormat('yyyy-MM-dd').format(selectedDate);
+
+    for (var entry in _calendarData) {
+      String date = entry['DATE'].substring(0, 10);
+      int workoutId = entry['Workout_ID'];
+
+      if (date == selectedDateString) {
+        return workoutId;
+      }
+    }
+
+    return null;
   }
 
   @override
@@ -52,16 +107,6 @@ class _CalendarPageState extends State<CalendarPage> {
       body: Center(
         child: _buildCalendar(),
       ),
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: 0, // Set the current index for the calendar page
-        onTap: (index) {
-          if (index == 1) {
-            Navigator.pop(context); // Navigate back to the home page
-          } else if (index == 2) {
-            Navigator.pushReplacementNamed(context, '/profile'); // Navigate to the profile page
-          }
-        },
-      ),
     );
   }
 
@@ -72,7 +117,7 @@ class _CalendarPageState extends State<CalendarPage> {
       focusedDay: _currentDate,
       calendarFormat: CalendarFormat.month,
       headerStyle: HeaderStyle(
-        formatButtonVisible: false, // Hide the format button
+        formatButtonVisible: false,
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle(color: Colors.black),
@@ -83,15 +128,28 @@ class _CalendarPageState extends State<CalendarPage> {
         selectedDecoration: BoxDecoration(color: Colors.blue),
         markersMaxCount: 2,
       ),
-      eventLoader: (date) {
-        final workoutIds = 1; // _workoutIds[date];
-      print('Workout IDs for $date: $workoutIds');
-        return _workoutIds[date] ?? [];
-      },
-      onDaySelected: (selectedDate, focusedDate) {
-        setState(() {
-          _currentDate = selectedDate;
-        });
+      onDaySelected: (selectedDate, focusedDate) async {
+        int? workoutId = getWorkoutIdForDate(selectedDate);
+        if (workoutId != null) {
+          await showWorkoutTitle(context, workoutId);
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('No Workout Scheduled'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Close'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
       },
     );
   }

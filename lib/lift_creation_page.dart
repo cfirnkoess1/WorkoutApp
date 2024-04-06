@@ -41,44 +41,46 @@ class _LiftCreationPageState extends State<LiftCreationPage> {
     }
   }
 
-  void _saveLifts() async {
-    // Encode the list of lifts to JSON
-    String requestBody = json.encode(lifts);
-    String requestBody2 = requestBody.substring(1, requestBody.length - 1);
- print('Request Body: $requestBody2');
-    // Example API endpoint for creating lifts
-    String apiUrl = 'http://localhost:3000/lifts';
+void _saveLifts() async {
+  // Example API endpoint for creating a lift
+  String apiUrl = 'http://localhost:3000/lifts';
 
-    try {
+  try {
+    for (var lift in lifts) {
+      // Encode the lift to JSON
+      String requestBody = json.encode(lift);
+      
       var response = await http.post(
         Uri.parse(apiUrl),
         headers: {
           'Content-Type': 'application/json', // Set Content-Type header to application/json
         },
-        
-        body: requestBody2,
-
+        body: requestBody,
       );
 
       if (response.statusCode == 200) {
-        // Successfully saved the lifts
-        // Navigate back to the previous screen
-        Navigator.pushReplacement(
+        // Successfully saved the lift
+        print('Lift saved: ${lift['liftTitle']}');
+      } else {
+        // Failed to save lift
+        print('Failed to save lift: ${lift['liftTitle']} - ${response.statusCode} ${response.body}');
+      }
+    }
+
+    // Navigate back to the previous screen
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewWorkoutPage(workoutId: widget.workoutId),),);
-      } else {
-        // Failed to save lifts
-        // Show an error message to the user
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to save lifts')),
-        );
-      }
-    } catch (error) {
-      // Handle errors from the HTTP request
-      print('Error saving lifts: $error');
-    }
+        builder: (context) => ViewWorkoutPage(workoutId: widget.workoutId),
+      ),
+    );
+  } catch (error) {
+    // Handle errors from the HTTP request
+    print('Error saving lifts: $error');
   }
+}
+
+
 
   @override
   Widget build(BuildContext context) {

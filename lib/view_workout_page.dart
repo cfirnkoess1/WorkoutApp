@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -34,7 +35,7 @@ class _ViewWorkoutPageState extends State<ViewWorkoutPage> {
       }
 
       // Fetch lifts associated with the workout ID
-      final liftsResponse = await http.get(Uri.parse('http://localhost:3000/lifts?Workout_ID=${widget.workoutId}'));
+      final liftsResponse = await http.get(Uri.parse('http://localhost:3000/lifts/workout/${widget.workoutId}'));
       if (liftsResponse.statusCode == 200) {
         final liftsData = json.decode(liftsResponse.body);
         lifts = List<Map<String, dynamic>>.from(liftsData);
@@ -82,44 +83,56 @@ class _ViewWorkoutPageState extends State<ViewWorkoutPage> {
                         return ListTile(
                           title: Text(lift['LIFT_TITLE']),
                           subtitle: Text('Sets: ${lift['SETS']}, Reps: ${lift['REPS']}'),
-                          trailing: StatefulBuilder(
-                            builder: (BuildContext context, StateSetter setState) {
-                              return Checkbox(
-                                value: lift['ISCOMPLETED'] == 1,
-                                onChanged: (value) {
-                                  setState(() {
-                                    lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 1 : 0; // Update the local state immediately
-                                  });
+                          trailing: Checkbox(
+                            value: lift['ISCOMPLETED'] == 1,
+                            onChanged: (value) async {
+                              try {
+                                setState(() {
+                                  lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 0 : 1; // Update the local state immediately
+                                });
 
-                                  // Send a request to your API to update the completion status
-                                  http.put(
-                                    Uri.parse('http://localhost:3000/lifts/${lift['ID']}'),
-                                    body: jsonEncode({
-                                      'liftTitle': lift['LIFT_TITLE'],
-                                      'sets': lift['SETS'],
-                                      'reps': lift['REPS'],
-                                      'isCompleted': value,
-                                    }),
-                                    headers: {'Content-Type': 'application/json'},
-                                  ).then((response) {
-                                    if (response.statusCode != 200) {
-                                      // Handle error
-                                      print('Failed to update lift completion status');
-                                      setState(() {
-                                        // Rollback state change if update fails
-                                        lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 0 : 1;
-                                      });
-                                    }
-                                  }).catchError((error) {
-                                    // Handle error
-                                    print('Error updating lift completion status: $error');
-                                    setState(() {
-                                      // Rollback state change if update fails
-                                      lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 0 : 1;
-                                    });
+                                print('Request Payload: ${{
+                                   'liftTitle': lift['LIFT_TITLE'],
+                                    'workout_ID': widget.workoutId,
+                                    'sets': lift['SETS'],
+                                    'reps': lift['REPS'],
+                                    'isCompleted': value,
+                                  }}');
+
+
+                                // Send a request to update the completion status
+                                final response = await http.put(
+                                  Uri.parse('http://localhost:3000/lifts/${lift['ID']}'),
+                                  body: jsonEncode({
+                                    'liftTitle': lift['LIFT_TITLE'],
+                                    'workoutId':widget.workoutId,
+                                    'sets': lift['SETS'],
+                                    'reps': lift['REPS'],
+                                    'isCompleted': value,
+                                  }),
+                                  headers: {'Content-Type': 'application/json'},
+                                  
+                                );
+
+                                
+
+
+                                if (response.statusCode != 200) {
+                                  // Handle error
+                                  print('Failed to update lift completion status');
+                                  setState(() {
+                                    // Rollback state change if update fails
+                                    lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 0 : 1;
                                   });
-                                },
-                              );
+                                }
+                              } catch (error) {
+                                // Handle error
+                                print('Error updating lift completion status: $error');
+                                setState(() {
+                                  // Rollback state change if update fails
+                                  lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 0 : 1;
+                                });
+                              }
                             },
                           ),
                         );

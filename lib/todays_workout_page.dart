@@ -34,7 +34,7 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
       }
 
       // Fetch lifts associated with the workout ID
-      final liftsResponse = await http.get(Uri.parse('http://localhost:3000/lifts?Workout_ID=${widget.workoutId}'));
+      final liftsResponse = await http.get(Uri.parse('http://localhost:3000/lifts/workout/${widget.workoutId}'));
       if (liftsResponse.statusCode == 200) {
         final liftsData = json.decode(liftsResponse.body);
         lifts = List<Map<String, dynamic>>.from(liftsData);
