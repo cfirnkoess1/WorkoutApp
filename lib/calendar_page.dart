@@ -13,12 +13,14 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   late DateTime _currentDate;
   List<dynamic> _calendarData = []; // Store response data here
+  List<dynamic> _workoutsData = []; // Store workouts data here
 
   @override
   void initState() {
     super.initState();
     _currentDate = DateTime.now();
     _fetchCalendarData();
+    _fetchWorkoutsData();
   }
 
   Future<void> _fetchCalendarData() async {
@@ -30,6 +32,18 @@ class _CalendarPageState extends State<CalendarPage> {
       });
     } else {
       print('Failed to fetch calendar data');
+    }
+  }
+
+  Future<void> _fetchWorkoutsData() async {
+    final response = await http.get(Uri.parse('http://localhost:3000/workout'));
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      setState(() {
+        _workoutsData = data;
+      });
+    } else {
+      print('Failed to fetch workouts data');
     }
   }
 
@@ -52,34 +66,107 @@ class _CalendarPageState extends State<CalendarPage> {
   Future<void> showWorkoutTitle(BuildContext context, int workoutId) async {
     String? workoutTitle = await getWorkoutTitle(workoutId);
     if (workoutTitle != null) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Workout Title'),
-          content: Text(workoutTitle),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Close'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ViewWorkoutPage(workoutId: workoutId)),
-                );
-              },
-              child: Text('View Workout'),
-            ),
-          ],
-        );
-      },
-    );
-  } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Workout Title'),
+            content: Text(workoutTitle),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Close'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ViewWorkoutPage(workoutId: workoutId)),
+                  );
+                },
+                child: Text('View Workout'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
       // Handle error or display a message indicating failure to fetch workout title
+    }
+  }
+
+Future<void> showWorkoutList(BuildContext context, DateTime selectedDate) async {
+  List<int> workoutIds = [];
+  List<String> workoutTitles = [];
+  for (var workout in _workoutsData) {
+    workoutIds.add(workout['ID']);
+    workoutTitles.add(workout['TITLE']);
+  }
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            title: Text('Available Workouts'),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (int i = 0; i < workoutTitles.length; i++)
+                  ListTile(
+                    title: Text(workoutTitles[i]),
+                    trailing: ElevatedButton(
+                      onPressed: () {
+                        // Add calendar date with the corresponding workout ID
+                        _addCalendarDate(selectedDate, workoutIds[i]);
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Add'),
+                    ),
+                  ),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+
+  Future<void> _addCalendarDate(DateTime date, int workoutId) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://localhost:3000/calendar'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'date': DateFormat('yyyy-MM-dd').format(date),
+          'workoutId': workoutId,
+        }),
+      );
+      if (response.statusCode == 201) {
+        print('Calendar date added successfully');
+        // Refresh calendar data
+        _fetchCalendarData();
+      } else {
+        print('Failed to add calendar date');
+      }
+    } catch (e) {
+      print('Error adding calendar date: $e');
     }
   }
 
@@ -144,6 +231,12 @@ class _CalendarPageState extends State<CalendarPage> {
                       Navigator.of(context).pop();
                     },
                     child: Text('Close'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      await showWorkoutList(context, selectedDate);
+                    },
+                    child: Text('View Workouts'),
                   ),
                 ],
               );
