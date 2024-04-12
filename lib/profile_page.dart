@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
         currentIndex: 2, // Set the current index for the profile page
         onTap: (index) {
           if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/calendar'); // Navigate to the calendar page
+      Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarPage()),); // Navigate to the calendar page
           } else if (index == 1) {
             Navigator.pop(context); // Navigate back to the home page
           }

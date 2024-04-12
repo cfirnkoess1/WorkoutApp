@@ -1,9 +1,13 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:workout_app/view_workout_page.dart';
+import 'package:workout_app/bottom_navbar.dart';
+import 'package:workout_app/home_page.dart';
+
+import 'profile_page.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -193,6 +197,19 @@ Future<void> showWorkoutList(BuildContext context, DateTime selectedDate) async 
       ),
       body: Center(
         child: _buildCalendar(),
+      ),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: 0, // Set the current index for the calendar page
+        onTap: (index) {
+          if (index == 1) { Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage(userID: 1)),
+      );  } else if (index == 2) {
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ProfilePage(userID: 1)),
+            ); // Navigate back to the home page
+          }
+        },
       ),
     );
   }
