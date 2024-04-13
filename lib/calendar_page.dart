@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
@@ -67,7 +67,7 @@ class _CalendarPageState extends State<CalendarPage> {
     }
   }
 
-  Future<void> showWorkoutTitle(BuildContext context, int workoutId) async {
+  Future<void> showWorkoutTitle(BuildContext context, int workoutId, DateTime selectedDate) async {
     String? workoutTitle = await getWorkoutTitle(workoutId);
     if (workoutTitle != null) {
       showDialog(
@@ -92,6 +92,14 @@ class _CalendarPageState extends State<CalendarPage> {
                 },
                 child: Text('View Workout'),
               ),
+              TextButton(
+                onPressed: () {
+                  // Remove the workout from the selected date
+                  _removeWorkoutFromCalendar(selectedDate);
+                  Navigator.of(context).pop();
+                },
+                child: Text('Remove Workout'),
+              ),
             ],
           );
         },
@@ -101,78 +109,27 @@ class _CalendarPageState extends State<CalendarPage> {
     }
   }
 
-Future<void> showWorkoutList(BuildContext context, DateTime selectedDate) async {
-  List<int> workoutIds = [];
-  List<String> workoutTitles = [];
-  for (var workout in _workoutsData) {
-    workoutIds.add(workout['ID']);
-    workoutTitles.add(workout['TITLE']);
+ Future<void> _removeWorkoutFromCalendar(DateTime selectedDate) async {
+  try {
+    String dateString = DateFormat('yyyy-MM-dd').format(selectedDate);
+    final response = await http.delete(
+      Uri.parse('http://localhost:3000/calendar/$dateString'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    if (response.statusCode == 200) {
+      print('Workout removed from calendar successfully');
+      // Refresh calendar data
+      _fetchCalendarData();
+    } else {
+      print('Failed to remove workout from calendar');
+    }
+  } catch (e) {
+    print('Error removing workout from calendar: $e');
   }
-
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return StatefulBuilder(
-        builder: (context, setState) {
-          return AlertDialog(
-            title: Text('Available Workouts'),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                for (int i = 0; i < workoutTitles.length; i++)
-                  ListTile(
-                    title: Text(workoutTitles[i]),
-                    trailing: ElevatedButton(
-                      onPressed: () {
-                        // Add calendar date with the corresponding workout ID
-                        _addCalendarDate(selectedDate, workoutIds[i]);
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('Add'),
-                    ),
-                  ),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Close'),
-              ),
-            ],
-          );
-        },
-      );
-    },
-  );
 }
 
-
-  Future<void> _addCalendarDate(DateTime date, int workoutId) async {
-    try {
-      final response = await http.post(
-        Uri.parse('http://localhost:3000/calendar'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, dynamic>{
-          'date': DateFormat('yyyy-MM-dd').format(date),
-          'workoutId': workoutId,
-        }),
-      );
-      if (response.statusCode == 201) {
-        print('Calendar date added successfully');
-        // Refresh calendar data
-        _fetchCalendarData();
-      } else {
-        print('Failed to add calendar date');
-      }
-    } catch (e) {
-      print('Error adding calendar date: $e');
-    }
-  }
 
   int? getWorkoutIdForDate(DateTime selectedDate) {
     String selectedDateString = DateFormat('yyyy-MM-dd').format(selectedDate);
@@ -235,8 +192,10 @@ Future<void> showWorkoutList(BuildContext context, DateTime selectedDate) async 
       onDaySelected: (selectedDate, focusedDate) async {
         int? workoutId = getWorkoutIdForDate(selectedDate);
         if (workoutId != null) {
-          await showWorkoutTitle(context, workoutId);
+          // Show workout details with the option to remove it
+          await showWorkoutTitle(context, workoutId, selectedDate);
         } else {
+          // Show available workouts to add
           showDialog(
             context: context,
             builder: (context) {
@@ -262,5 +221,82 @@ Future<void> showWorkoutList(BuildContext context, DateTime selectedDate) async 
         }
       },
     );
+  }
+
+  Future<void> showWorkoutList(BuildContext context, DateTime selectedDate) async {
+    List<int> workoutIds = [];
+    List<String> workoutTitles = [];
+    for (var workout in _workoutsData) {
+      workoutIds.add(workout['ID']);
+      workoutTitles.add(workout['TITLE']);
+    }
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Available Workouts'),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (int i = 0; i < workoutTitles.length; i++)
+                    ListTile(
+                      title: Text(workoutTitles[i]),
+                      trailing: ElevatedButton(
+                        onPressed: () {
+                          // Add calendar date with the corresponding workout ID
+                          _addCalendarDate(selectedDate, workoutIds[i]);
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Add'),
+                      ),
+                    ),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _addCalendarDate(DateTime date, int workoutId) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://localhost:3000/calendar'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'date': DateFormat('yyyy-MM-dd').format(date),
+          'workoutId': workoutId,
+        }),
+      );
+      if (response.statusCode == 200) {
+        print('Calendar date added successfully');
+         // Close both dialogs
+      Navigator.of(context).pop();
+        // Refresh calendar data
+      await _fetchCalendarData(); // Wait for data to be fetched
+      setState(() {
+        // Set state to trigger a rebuild of the UI
+      });
+      } else {
+        print('Failed to add calendar date');
+      }
+    } catch (e) {
+      print('Error adding calendar date: $e');
+    }
   }
 }

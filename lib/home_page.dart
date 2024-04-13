@@ -26,61 +26,89 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CalendarPage()),
-                );
-              },
-              child: Text('Go to Calendar Page'),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2, // Number of columns
+                mainAxisSpacing: 20.0, // Spacing between items vertically
+                crossAxisSpacing: 20.0, // Spacing between items horizontally
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CalendarPage()),
+                      );
+                    },
+                    child: Text('Go to Calendar Page'),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(45.0),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ViewCreatedWorkoutsPage()),
+                      );
+                    },
+                    child: Text('View Created Workouts'),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(45.0),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CreateWorkoutPage(userId: userID)),
+                      );
+                    },
+                    child: Text('Create Workout'),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(45.0),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProfilePage(userID: userID)),
+                      );
+                    },
+                    child: Text('View User Profile'),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(45.0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            
-             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ViewCreatedWorkoutsPage()), // Replace ViewCreatedWorkoutsPage with the actual page
-                );
-              },
-              child: Text('View Created Workouts'),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CreateWorkoutPage(userId: userID)),
-                );
-              },
-              child: Text('Create Workout'),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfilePage(userID: userID)),
-                );
-              },
-              child: Text('View User Profile'),
-            ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 checkForTodayWorkout(context);
               },
               child: Text("Today's Workout"),
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
+                minimumSize: Size(double.infinity, 150),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(45.0),
+                ),
               ),
             ),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavBar(
-        currentIndex: 1, // Set the current index for the home page
+        currentIndex: 1,
         onTap: (index) {
           if (index == 0) {
             Navigator.push(
@@ -110,47 +138,39 @@ class HomePage extends StatelessWidget {
   }
 
   Future<void> checkForTodayWorkout(BuildContext context) async {
-  List<Map<String, dynamic>> calendarEvents;
-  try {
-    calendarEvents = await fetchCalendarEvents();
-    int? workoutId = getWorkoutIdForToday(calendarEvents);
-    if (workoutId != null) {
-      print('Workout is scheduled for today!');
-      // Navigate to the page showing today's workout
-      // ignore: use_build_context_synchronously
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => TodaysWorkoutPage(workoutId: workoutId)),
-      );
-    } else {
-      // No workout scheduled for today
-      print('No workout scheduled for today');
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => NoWorkoutScheduledPage()), // Use your existing NoWorkoutScheduledPage
-      );
-    }
-  } catch (e) {
-    print('Error: $e');
-    // Handle error
-  }
-}
-
-int? getWorkoutIdForToday(List<Map<String, dynamic>> calendarEvents) {
-  DateTime today = DateTime.now();
-  String todayDate = '${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
-  for (var event in calendarEvents) {
-    if (event['DATE'].startsWith(todayDate)) {
-      return event['Workout_ID'];
+    List<Map<String, dynamic>> calendarEvents;
+    try {
+      calendarEvents = await fetchCalendarEvents();
+      int? workoutId = getWorkoutIdForToday(calendarEvents);
+      if (workoutId != null) {
+        print('Workout is scheduled for today!');
+        // Navigate to the page showing today's workout
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TodaysWorkoutPage(workoutId: workoutId)),
+        );
+      } else {
+        // No workout scheduled for today
+        print('No workout scheduled for today');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NoWorkoutScheduledPage()),
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
+      // Handle error
     }
   }
-  return null;
-}
 
-
-  bool isWorkoutScheduledForToday(List<Map<String, dynamic>> calendarEvents) {
+  int? getWorkoutIdForToday(List<Map<String, dynamic>> calendarEvents) {
     DateTime today = DateTime.now();
     String todayDate = '${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
-    return calendarEvents.any((event) => event['DATE'].startsWith(todayDate));
+    for (var event in calendarEvents) {
+      if (event['DATE'].startsWith(todayDate)) {
+        return event['Workout_ID'];
+      }
+    }
+    return null;
   }
 }

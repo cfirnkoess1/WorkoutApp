@@ -12,7 +12,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Workout APP',
       theme: ThemeData(
-        // Theme data will go here in the future
+        primaryColor: const Color.fromARGB(255, 214, 237, 255), // Soft blue background
+        scaffoldBackgroundColor: const Color.fromARGB(255, 223, 241, 255), // Soft blue background for scaffolds
+       buttonTheme: ButtonThemeData(
+          buttonColor: Colors.blue, // Set the default button color
+          textTheme: ButtonTextTheme.primary,),
+          
       ),
       home: LoginPage(), // Set the login page as the home page
     );
