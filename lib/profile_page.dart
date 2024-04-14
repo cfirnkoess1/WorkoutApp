@@ -43,32 +43,72 @@ class _ProfilePageState extends State<ProfilePage> {
       body: _userData == null
           ? Center(child: CircularProgressIndicator())
           : Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Name: ${_userData!['NAME']}'),
-                  Text('Description: ${_userData!['DESCRIPTION']}'),
-                  Text('Username: ${_userData!['USERNAME']}'),
-                  Text('Email: ${_userData!['EMAIL']}'),
+                  SizedBox(height: 20),
+                  Text(
+                    'Name:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '${_userData!['NAME']}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Description:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '${_userData!['DESCRIPTION']}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Username:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '${_userData!['USERNAME']}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Email:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '${_userData!['EMAIL']}',
+                    style: TextStyle(fontSize: 16),
+                  ),
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => EditProfilePage( userID: widget.userID)),
-                      );
+                      // Navigate to EditProfilePage
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => EditProfilePage(userID: widget.userID)),
+                    ).then((result) {
+                      // Update UI if result is true (indicating successful update)
+                      if (result == true) {
+                        // Fetch updated user data
+                        fetchUserData(widget.userID);
+                      }
+                    });
+
                     },
                     child: Text('Edit Profile'),
                   ),
                 ],
               ),
             ),
-       bottomNavigationBar: BottomNavBar(
+      bottomNavigationBar: BottomNavBar(
         currentIndex: 2, // Set the current index for the profile page
         onTap: (index) {
           if (index == 0) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarPage()),); // Navigate to the calendar page
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarPage()),); // Navigate to the calendar page
           } else if (index == 1) {
             Navigator.pop(context); // Navigate back to the home page
           }
