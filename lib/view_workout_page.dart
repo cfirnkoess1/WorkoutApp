@@ -93,7 +93,7 @@ class _ViewWorkoutPageState extends State<ViewWorkoutPage> {
 
                                 print('Request Payload: ${{
                                    'liftTitle': lift['LIFT_TITLE'],
-                                    'workout_ID': widget.workoutId,
+                                    'Workout_ID': widget.workoutId,
                                     'sets': lift['SETS'],
                                     'reps': lift['REPS'],
                                     'isCompleted': value,
