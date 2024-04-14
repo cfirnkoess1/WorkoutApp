@@ -25,7 +25,8 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
   Future<void> fetchWorkoutAndLifts() async {
     try {
       // Fetch workout information
-      final workoutResponse = await http.get(Uri.parse('http://localhost:3000/workout/${widget.workoutId}'));
+      final workoutResponse =
+          await http.get(Uri.parse('http://localhost:3000/workout/${widget.workoutId}'));
       if (workoutResponse.statusCode == 200) {
         final workoutData = json.decode(workoutResponse.body);
         workoutTitle = workoutData['TITLE'];
@@ -34,7 +35,8 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
       }
 
       // Fetch lifts associated with the workout ID
-      final liftsResponse = await http.get(Uri.parse('http://localhost:3000/lifts/workout/${widget.workoutId}'));
+      final liftsResponse =
+          await http.get(Uri.parse('http://localhost:3000/lifts/workout/${widget.workoutId}'));
       if (liftsResponse.statusCode == 200) {
         final liftsData = json.decode(liftsResponse.body);
         lifts = List<Map<String, dynamic>>.from(liftsData);
@@ -55,7 +57,7 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Today\'s Workout'),
+        title: Text("Today's Workout"),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator()) // Show loading indicator while fetching data
@@ -82,44 +84,43 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
                         return ListTile(
                           title: Text(lift['LIFT_TITLE']),
                           subtitle: Text('Sets: ${lift['SETS']}, Reps: ${lift['REPS']}'),
-                          trailing: StatefulBuilder(
-                            builder: (BuildContext context, StateSetter setState) {
-                              return Checkbox(
-                                value: lift['ISCOMPLETED'] == 1,
-                                onChanged: (value) {
-                                  setState(() {
-                                    lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 1 : 0; // Update the local state immediately
-                                  });
+                          trailing: Checkbox(
+                            value: lift['ISCOMPLETED'] == 1,
+                            onChanged: (value) async {
+                              try {
+                                setState(() {
+                                  lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 0 : 1; // Update the local state immediately
+                                });
 
-                                  // Send a request to your API to update the completion status
-                                  http.put(
-                                    Uri.parse('http://localhost:3000/lifts/${lift['ID']}'),
-                                    body: jsonEncode({
-                                      'liftTitle': lift['LIFT_TITLE'],
-                                      'sets': lift['SETS'],
-                                      'reps': lift['REPS'],
-                                      'isCompleted': value,
-                                    }),
-                                    headers: {'Content-Type': 'application/json'},
-                                  ).then((response) {
-                                    if (response.statusCode != 200) {
-                                      // Handle error
-                                      print('Failed to update lift completion status');
-                                      setState(() {
-                                        // Rollback state change if update fails
-                                        lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 0 : 1;
-                                      });
-                                    }
-                                  }).catchError((error) {
-                                    // Handle error
-                                    print('Error updating lift completion status: $error');
-                                    setState(() {
-                                      // Rollback state change if update fails
-                                      lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 0 : 1;
-                                    });
+                                // Send a request to update the completion status
+                                final response = await http.put(
+                                  Uri.parse('http://localhost:3000/lifts/${lift['ID']}'),
+                                  body: jsonEncode({
+                                    'liftTitle': lift['LIFT_TITLE'],
+                                    'workoutId': widget.workoutId,
+                                    'sets': lift['SETS'],
+                                    'reps': lift['REPS'],
+                                    'isCompleted': value,
+                                  }),
+                                  headers: {'Content-Type': 'application/json'},
+                                );
+
+                                if (response.statusCode != 200) {
+                                  // Handle error
+                                  print('Failed to update lift completion status');
+                                  setState(() {
+                                    // Rollback state change if update fails
+                                    lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 0 : 1;
                                   });
-                                },
-                              );
+                                }
+                              } catch (error) {
+                                // Handle error
+                                print('Error updating lift completion status: $error');
+                                setState(() {
+                                  // Rollback state change if update fails
+                                  lift['ISCOMPLETED'] = lift['ISCOMPLETED'] == 1 ? 0 : 1;
+                                });
+                              }
                             },
                           ),
                         );
