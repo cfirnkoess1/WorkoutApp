@@ -77,12 +77,7 @@ class _CalendarPageState extends State<CalendarPage> {
             title: Text('Workout Title'),
             content: Text(workoutTitle),
             actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Close'),
-              ),
+              
               TextButton(
                 onPressed: () {
                   Navigator.push(
@@ -90,7 +85,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     MaterialPageRoute(builder: (context) => ViewWorkoutPage(workoutId: workoutId)),
                   );
                 },
-                child: Text('View Workout'),
+                child: Text('View Workout',
+                    style: TextStyle(color: Colors.blue[900]),),
               ),
               TextButton(
                 onPressed: () {
@@ -98,7 +94,14 @@ class _CalendarPageState extends State<CalendarPage> {
                   _removeWorkoutFromCalendar(selectedDate);
                   Navigator.of(context).pop();
                 },
-                child: Text('Remove Workout'),
+                child: Text('Remove Workout',
+                    style: TextStyle(color: Colors.red),),
+              ),TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Close',
+                    style: TextStyle(color: Colors.blue[900]),),
               ),
             ],
           );
@@ -155,13 +158,16 @@ class _CalendarPageState extends State<CalendarPage> {
       body: Center(
         child: _buildCalendar(),
       ),
+      backgroundColor: const Color(0xFF212121), // Background color same as home page
       bottomNavigationBar: BottomNavBar(
         currentIndex: 0, // Set the current index for the calendar page
         onTap: (index) {
-          if (index == 1) { Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage(userID: 1)),
-      );  } else if (index == 2) {
+          if (index == 1) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage(userID: 1)),
+            );
+          } else if (index == 2) {
             Navigator.push(context,
               MaterialPageRoute(builder: (context) => ProfilePage(userID: 1)),
             ); // Navigate back to the home page
@@ -179,15 +185,18 @@ class _CalendarPageState extends State<CalendarPage> {
       calendarFormat: CalendarFormat.month,
       headerStyle: HeaderStyle(
         formatButtonVisible: false,
+         titleTextStyle: TextStyle(
+        color: Colors.white ),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: TextStyle(color: Colors.black),
-        weekendStyle: TextStyle(color: Colors.red),
+        weekdayStyle: TextStyle(color: Colors.white), // Set weekday text color to white
+        weekendStyle: TextStyle(color: Colors.red), // Set weekend text color to red
       ),
       calendarStyle: CalendarStyle(
         todayDecoration: BoxDecoration(color: Colors.blue.withOpacity(0.5)),
         selectedDecoration: BoxDecoration(color: Colors.blue),
         markersMaxCount: 2,
+        defaultTextStyle: TextStyle(color: Colors.white), // Set default text color to white
       ),
       onDaySelected: (selectedDate, focusedDate) async {
         int? workoutId = getWorkoutIdForDate(selectedDate);
@@ -206,13 +215,15 @@ class _CalendarPageState extends State<CalendarPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text('Close'),
+                    child: Text('Close',
+                    style: TextStyle(color: Colors.blue[900]),),
                   ),
                   TextButton(
                     onPressed: () async {
                       await showWorkoutList(context, selectedDate);
                     },
-                    child: Text('View Workouts'),
+                    child: Text('View Workouts',
+                    style: TextStyle(color: Colors.blue[900]),),
                   ),
                 ],
               );
@@ -251,7 +262,8 @@ class _CalendarPageState extends State<CalendarPage> {
                           _addCalendarDate(selectedDate, workoutIds[i]);
                           Navigator.of(context).pop();
                         },
-                        child: Text('Add'),
+                        child: Text('Add',
+                    style: TextStyle(color: Colors.blue[900]),),
                       ),
                     ),
                 ],
@@ -261,7 +273,8 @@ class _CalendarPageState extends State<CalendarPage> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Close'),
+                  child: Text('Close',
+                    style: TextStyle(color: Colors.blue[900]),)
                 ),
               ],
             );

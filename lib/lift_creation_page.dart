@@ -41,52 +41,51 @@ class _LiftCreationPageState extends State<LiftCreationPage> {
     }
   }
 
-void _saveLifts() async {
-  // Example API endpoint for creating a lift
-  String apiUrl = 'http://localhost:3000/lifts';
+  void _saveLifts() async {
+    // Example API endpoint for creating a lift
+    String apiUrl = 'http://localhost:3000/lifts';
 
-  try {
-    for (var lift in lifts) {
-      // Encode the lift to JSON
-      String requestBody = json.encode(lift);
-      
-      var response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {
-          'Content-Type': 'application/json', // Set Content-Type header to application/json
-        },
-        body: requestBody,
-      );
+    try {
+      for (var lift in lifts) {
+        // Encode the lift to JSON
+        String requestBody = json.encode(lift);
 
-      if (response.statusCode == 200) {
-        // Successfully saved the lift
-        print('Lift saved: ${lift['liftTitle']}');
-      } else {
-        // Failed to save lift
-        print('Failed to save lift: ${lift['liftTitle']} - ${response.statusCode} ${response.body}');
+        var response = await http.post(
+          Uri.parse(apiUrl),
+          headers: {
+            'Content-Type': 'application/json', // Set Content-Type header to application/json
+          },
+          body: requestBody,
+        );
+
+        if (response.statusCode == 200) {
+          // Successfully saved the lift
+          print('Lift saved: ${lift['liftTitle']}');
+        } else {
+          // Failed to save lift
+          print('Failed to save lift: ${lift['liftTitle']} - ${response.statusCode} ${response.body}');
+        }
       }
+
+      // Navigate back to the previous screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ViewWorkoutPage(workoutId: widget.workoutId),
+        ),
+      );
+    } catch (error) {
+      // Handle errors from the HTTP request
+      print('Error saving lifts: $error');
     }
-
-    // Navigate back to the previous screen
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ViewWorkoutPage(workoutId: widget.workoutId),
-      ),
-    );
-  } catch (error) {
-    // Handle errors from the HTTP request
-    print('Error saving lifts: $error');
   }
-}
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Lifts'),
+        backgroundColor: Color(0xFF607D8B), // Matching the color from the CreateWorkoutPage
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -95,24 +94,54 @@ void _saveLifts() async {
           children: [
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Lift Name'),
+              decoration: InputDecoration(
+                labelText: 'Lift Name',
+                labelStyle: TextStyle(color: Colors.white70), // Adjusted the label color
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+              ),
+              cursorColor: Color(0xFF738892), // Matching the color from the CreateWorkoutPage
+              style: TextStyle(color: Colors.white), // Adjusted the text color
             ),
             SizedBox(height: 10),
             TextField(
               controller: _setsController,
-              decoration: InputDecoration(labelText: 'Sets'),
+              decoration: InputDecoration(
+                labelText: 'Sets',
+                labelStyle: TextStyle(color: Colors.white70), // Adjusted the label color
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+              ),
               keyboardType: TextInputType.number,
+              cursorColor: Color(0xFF738892), // Matching the color from the CreateWorkoutPage
+              style: TextStyle(color: Colors.white), // Adjusted the text color
             ),
             SizedBox(height: 10),
             TextField(
               controller: _repsController,
-              decoration: InputDecoration(labelText: 'Reps'),
+              decoration: InputDecoration(
+                labelText: 'Reps',
+                labelStyle: TextStyle(color: Colors.white70), // Adjusted the label color
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+              ),
               keyboardType: TextInputType.number,
+              cursorColor: Color(0xFF738892), // Matching the color from the CreateWorkoutPage
+              style: TextStyle(color: Colors.white), // Adjusted the text color
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _addLift,
-              child: Text('Add Lift'),
+              child: Text(
+                'Add Lift',
+                style: TextStyle(color: Colors.white), // Adjusted the text color
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFF607D8B), // Matching the color from the CreateWorkoutPage
+              ),
             ),
             SizedBox(height: 20),
             Expanded(
@@ -121,8 +150,14 @@ void _saveLifts() async {
                 itemBuilder: (context, index) {
                   final lift = lifts[index];
                   return ListTile(
-                    title: Text(lift['liftTitle']),
-                    subtitle: Text('Sets: ${lift['sets']}, Reps: ${lift['reps']}'),
+                    title: Text(
+                      lift['liftTitle'],
+                      style: TextStyle(color: Colors.white), // Adjusted the text color
+                    ),
+                    subtitle: Text(
+                      'Sets: ${lift['sets']}, Reps: ${lift['reps']}',
+                      style: TextStyle(color: Colors.white70), // Adjusted the text color
+                    ),
                   );
                 },
               ),
@@ -130,7 +165,13 @@ void _saveLifts() async {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _saveLifts,
-              child: Text('Save Lifts'),
+              child: Text(
+                'Save Workout',
+                style: TextStyle(color: Colors.white), // Adjusted the text color
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFF607D8B), // Matching the color from the CreateWorkoutPage
+              ),
             ),
           ],
         ),

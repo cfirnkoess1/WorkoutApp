@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:workout_app/create_workout_page.dart';
 import 'package:workout_app/profile_page.dart';
 import 'package:workout_app/bottom_navbar.dart';
@@ -39,11 +39,15 @@ class HomePage extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => CalendarPage()),
                       );
                     },
-                    child: Text('Go to Calendar Page'),
+                    child: Text(
+                      'Go to Calendar Page',
+                      style: TextStyle(color: Color(0xFFD9D9D9)), // Text color
+                    ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(45.0),
                       ),
+                      primary: Color(0xFF37474F), // Steely blue
                     ),
                   ),
                   ElevatedButton(
@@ -53,11 +57,15 @@ class HomePage extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => ViewCreatedWorkoutsPage()),
                       );
                     },
-                    child: Text('View Created Workouts'),
+                    child: Text(
+                      'View Created Workouts',
+                      style: TextStyle(color: Color(0xFFD9D9D9)), // Text color
+                    ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(45.0),
                       ),
+                      primary: Color(0xFF37474F), // Steely blue
                     ),
                   ),
                   ElevatedButton(
@@ -67,11 +75,15 @@ class HomePage extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => CreateWorkoutPage(userId: userID)),
                       );
                     },
-                    child: Text('Create Workout'),
+                    child: Text(
+                      'Create Workout',
+                      style: TextStyle(color: Color(0xFFD9D9D9)), // Text color
+                    ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(45.0),
                       ),
+                      primary: Color(0xFF37474F), // Steely blue
                     ),
                   ),
                   ElevatedButton(
@@ -81,11 +93,15 @@ class HomePage extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => ProfilePage(userID: userID)),
                       );
                     },
-                    child: Text('View User Profile'),
+                    child: Text(
+                      'View User Profile',
+                      style: TextStyle(color: Color(0xFFD9D9D9)), // Text color
+                    ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(45.0),
                       ),
+                      primary: Color(0xFF37474F), // Steely blue
                     ),
                   ),
                 ],
@@ -96,12 +112,16 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 checkForTodayWorkout(context);
               },
-              child: Text("Today's Workout"),
+              child: Text(
+                "Today's Workout",
+                style: TextStyle(color: Color(0xFFD9D9D9)), // Text color
+              ),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 150),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(45.0),
                 ),
+                primary: Color(0xFF37474F), // Button color
               ),
             ),
           ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:workout_app/home_page.dart';
 import 'dart:convert';
-import 'main.dart'as homeMain;
+import 'main.dart' as homeMain;
 
 void main() {
   runApp(LoginApp());
@@ -14,7 +14,20 @@ class LoginApp extends StatelessWidget {
     return MaterialApp(
       title: 'Login App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xFF607D8B), // Primary color
+        scaffoldBackgroundColor: Color(0xFF212121), // Background color for scaffolds
+        textTheme: TextTheme(
+          // Text color for various text widgets
+          bodyText1: TextStyle(color: Color(0xFFD9D9D9)),
+          bodyText2: TextStyle(color: Color(0xFFD9D9D9)),
+        ),
+        buttonTheme: ButtonThemeData(
+          buttonColor: Color(0xFFADD5F7), // Button color
+          textTheme: ButtonTextTheme.primary,
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Color(0xFFADD5F7), // Cursor color
+        ),
       ),
       home: LoginPage(),
     );
@@ -30,15 +43,14 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String _errorMessage = '';
-  int _loggedInUserID =0;
+  int _loggedInUserID = 0;
 
   void _navigateToHomePage(BuildContext context, int userID) {
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => HomePage(userID: userID)), // Pass the user ID
-  );
-}
-
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage(userID: userID)),
+    );
+  }
 
   Future<void> _login(BuildContext context) async {
     final USERNAME = _usernameController.text;
@@ -59,14 +71,13 @@ class _LoginPageState extends State<LoginPage> {
 
         //save the user ID here and push it to other pages
         _loggedInUserID = userData['ID'];
-                
+
         setState(() {
           _errorMessage = '';
         });
-        
+
         // Navigate to the home page
         _navigateToHomePage(context, _loggedInUserID);
-
       } else {
         setState(() {
           _errorMessage = 'Invalid username or password';
@@ -92,21 +103,36 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             TextField(
               controller: _usernameController,
+              style: TextStyle(color: Color(0xFFD9D9D9)), // Text color for text fields
               decoration: InputDecoration(
                 labelText: 'Username',
+                labelStyle: TextStyle(color: Color(0xFFD9D9D9)), // Label color for text fields
+                focusedBorder: UnderlineInputBorder( // Remove purple underline
+                  borderSide: BorderSide(color: Color(0xFFADD5F7)), // Use button color
+                ),
               ),
+              cursorColor: Color(0xFFADD5F7), // Set cursor color to match underline color
             ),
             SizedBox(height: 20),
             TextField(
               controller: _passwordController,
+              style: TextStyle(color: Color(0xFFD9D9D9)), // Text color for text fields
               decoration: InputDecoration(
                 labelText: 'Password',
+                labelStyle: TextStyle(color: Color(0xFFD9D9D9)), // Label color for text fields
+                focusedBorder: UnderlineInputBorder( // Remove purple underline
+                  borderSide: BorderSide(color: Color(0xFFADD5F7)), // Use button color
+                ),
               ),
+              cursorColor: Color(0xFFADD5F7), // Set cursor color to match underline color
               obscureText: true,
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => _login(context),
+              style: ButtonStyle( // Set button text color
+                foregroundColor: MaterialStateProperty.all<Color>(Color(0xFF607D8B)),
+              ),
               child: Text('Login'),
             ),
             if (_errorMessage.isNotEmpty)
@@ -114,26 +140,11 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Text(
                   _errorMessage,
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: Colors.red), // Text color for error message
                 ),
               ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-// Replace MainApp with your main.dart page
-class MainApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Main Page'),
-      ),
-      body: Center(
-        child: Text('Welcome to the main page!'),
       ),
     );
   }

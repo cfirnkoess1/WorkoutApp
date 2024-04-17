@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:workout_app/bottom_navbar.dart';
 import 'package:workout_app/calendar_page.dart';
 import 'edit_profile.dart';
+import 'home_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final int userID;
@@ -39,6 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile Page'),
+        backgroundColor: Color(0xFF607D8B), // Matching the color from the CreateWorkoutPage
       ),
       body: _userData == null
           ? Center(child: CircularProgressIndicator())
@@ -50,38 +52,38 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(height: 20),
                   Text(
                     'Name:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
                   ),
                   Text(
                     '${_userData!['NAME']}',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: Colors.white), // Adjusted the text color
                   ),
                   SizedBox(height: 20),
                   Text(
                     'Description:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
                   ),
                   Text(
                     '${_userData!['DESCRIPTION']}',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: Colors.white), // Adjusted the text color
                   ),
                   SizedBox(height: 20),
                   Text(
                     'Username:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
                   ),
                   Text(
                     '${_userData!['USERNAME']}',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: Colors.white), // Adjusted the text color
                   ),
                   SizedBox(height: 20),
                   Text(
                     'Email:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
                   ),
                   Text(
                     '${_userData!['EMAIL']}',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: Colors.white), // Adjusted the text color
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
@@ -99,7 +101,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     });
 
                     },
-                    child: Text('Edit Profile'),
+                    child: Text('Edit Profile',
+                    style: TextStyle(color: Colors.white),),
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xFF607D8B), // Matching the color from the CreateWorkoutPage
+                    ),
                   ),
                 ],
               ),
@@ -110,7 +116,7 @@ class _ProfilePageState extends State<ProfilePage> {
           if (index == 0) {
             Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarPage()),); // Navigate to the calendar page
           } else if (index == 1) {
-            Navigator.pop(context); // Navigate back to the home page
+            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage(userID: 1)), ); // Navigate back to the home page
           }
         },
       ),

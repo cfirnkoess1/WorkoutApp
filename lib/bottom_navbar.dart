@@ -27,6 +27,7 @@ class BottomNavBar extends StatelessWidget {
         ),
       ],
       currentIndex: currentIndex,
+      selectedItemColor: Color(0xFF37474F), // Change the selected item color
       onTap: onTap,
     );
   }

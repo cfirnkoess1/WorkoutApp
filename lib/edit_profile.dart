@@ -85,7 +85,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            color: Colors.blue,
+            color: Color(0xFF37474F),
             child: Text(
               'Confirm your profile details:',
               style: TextStyle(color: Colors.white),
@@ -99,33 +99,78 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 children: [
                   TextField(
                     controller: _nameController,
-                    decoration: InputDecoration(labelText: 'Name'),
+                    decoration: InputDecoration(
+                      labelText: 'Name',
+                      labelStyle: TextStyle(color: Colors.white), // Set label text color
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF37474F)),
+                      ),
+                    ),
+                    cursorColor: Colors.blue, // Set cursor color
+                    style: TextStyle(color: Colors.white), // Set text color
                   ),
                   TextField(
                     controller: _descriptionController,
-                    decoration: InputDecoration(labelText: 'Description'),
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      labelStyle: TextStyle(color: Colors.white), // Set label text color
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF37474F)),
+                      ),
+                    ),
+                    cursorColor: Color(0xFF37474F), // Set cursor color
+                    style: TextStyle(color: Colors.white), // Set text color
                   ),
                   TextField(
                     controller: _usernameController,
-                    decoration: InputDecoration(labelText: 'Username'),
+                    decoration: InputDecoration(
+                      labelText: 'Username',
+                      labelStyle: TextStyle(color: Colors.white), // Set label text color
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF37474F)),
+                      ),
+                    ),
+                    cursorColor: Color(0xFF37474F), // Set cursor color
+                    style: TextStyle(color: Colors.white), // Set text color
                   ),
                   TextField(
                     controller: _passwordController,
-                    decoration: InputDecoration(labelText: 'Password'),
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      labelStyle: TextStyle(color: Colors.white), // Set label text color
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF37474F)),
+                      ),
+                    ),
+                    cursorColor: Color(0xFF37474F), // Set cursor color
+                    style: TextStyle(color: Colors.white), // Set text color
                     obscureText: true,
                   ),
                   TextField(
                     controller: _emailController,
-                    decoration: InputDecoration(labelText: 'Email'),
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      labelStyle: TextStyle(color: Colors.white), // Set label text color
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF37474F)),
+                      ),
+                    ),
+                    cursorColor: Color(0xFF37474F), // Set cursor color
+                    style: TextStyle(color: Colors.white), // Set text color
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       // Handle form submission
                       _updateProfile();
-
                     },
-                    child: Text('Save Changes'),
+                    child: Text(
+                      'Save Changes',
+                      style: TextStyle(color: Colors.white), // Set text color
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xFF37474F), // Set button background color
+                    ),
                   ),
                 ],
               ),

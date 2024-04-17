@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:workout_app/view_created_workouts.dart';
 import 'package:workout_app/lift_creation_page.dart';
+import 'package:workout_app/profile_page.dart';
+import 'package:workout_app/bottom_navbar.dart';
+import 'package:workout_app/calendar_page.dart';
 
 class CreateWorkoutPage extends StatefulWidget {
   final int userId;
@@ -17,57 +20,57 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
   TextEditingController _titleController = TextEditingController();
 
   void _createWorkout() async {
-  String title = _titleController.text;
+    String title = _titleController.text;
 
-  // Encode request body to JSON
-  String requestBody = json.encode({
-    'title': title,
-    'userId': widget.userId,
-  });
+    // Encode request body to JSON
+    String requestBody = json.encode({
+      'title': title,
+      'userId': widget.userId,
+    });
 
-  // Example API endpoint for creating a workout
-  String apiUrl = 'http://localhost:3000/workout';
+    // Example API endpoint for creating a workout
+    String apiUrl = 'http://localhost:3000/workout';
 
-  try {
-    var response = await http.post(
-      Uri.parse(apiUrl),
-      headers: {
-        'Content-Type': 'application/json', // Set Content-Type header to application/json
-      },
-      body: requestBody,
-    );
-
-    if (response.statusCode == 200) {
-      // Workout created successfully
-      // Parse the workoutId from the response
-      int workoutId = json.decode(response.body)['id'];
-
-      // Navigate to the lift creation page and pass the workoutId
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LiftCreationPage(workoutId: workoutId),
-        ),
+    try {
+      var response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {
+          'Content-Type': 'application/json', // Set Content-Type header to application/json
+        },
+        body: requestBody,
       );
-    } else {
-      // Failed to create workout
-      // Show an error message to the user
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to create workout')),
-      );
+
+      if (response.statusCode == 200) {
+        // Workout created successfully
+        // Parse the workoutId from the response
+        int workoutId = json.decode(response.body)['id'];
+
+        // Navigate to the lift creation page and pass the workoutId
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LiftCreationPage(workoutId: workoutId),
+          ),
+        );
+      } else {
+        // Failed to create workout
+        // Show an error message to the user
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to create workout')),
+        );
+      }
+    } catch (error) {
+      // Handle errors from the HTTP request
+      print('Error creating workout: $error');
     }
-  } catch (error) {
-    // Handle errors from the HTTP request
-    print('Error creating workout: $error');
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Workout'),
+        backgroundColor: Color(0xFF607D8B), // Set app bar color to the first color in the palette
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -76,7 +79,14 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
           children: [
             TextField(
               controller: _titleController,
-              decoration: InputDecoration(labelText: 'Workout Title'),
+              decoration: InputDecoration(
+                labelText: 'Workout Title',
+                labelStyle: TextStyle(color: Colors.white70), // Set label text color
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.white)),),
+              
+              cursorColor: Color.fromARGB(255, 115, 136, 146), // Set cursor color
+  style: TextStyle(color: Colors.white),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -84,21 +94,51 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
                 // Handle form submission
                 _createWorkout();
               },
-              child: Text('Create Workout'),
+              child: Text(
+                'Create Workout',
+                style: TextStyle(color: Colors.white), // Set button text color
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFF607D8B), // Set button background color to the first color in the palette
+              ),
             ),
-             SizedBox(height: 20),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Navigate to view created workouts page
                 Navigator.push(
-                context,
-      MaterialPageRoute(builder: (context) => ViewCreatedWorkoutsPage()),
+                  context,
+                  MaterialPageRoute(builder: (context) => ViewCreatedWorkoutsPage()),
                 );
               },
-              child: Text('View Created Workouts'),
+              child: Text(
+                'View Created Workouts',
+                style: TextStyle(color: Colors.white), // Set button text color
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFF607D8B), // Set button background color to the first color in the palette
+              ),
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: 1,
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CalendarPage()),
+            );
+          } else if (index == 1) {
+            Navigator.pop(context);
+          } else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage(userID: 1)),
+            );
+          }
+        },
       ),
     );
   }

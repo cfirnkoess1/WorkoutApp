@@ -6,25 +6,25 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Workout APP',
       theme: ThemeData(
-        primaryColor: const Color.fromARGB(255, 214, 237, 255), // Soft blue background
-        scaffoldBackgroundColor: const Color.fromARGB(255, 223, 241, 255), // Soft blue background for scaffolds
-       buttonTheme: ButtonThemeData(
-          buttonColor: Colors.blue, // Set the default button color
-          textTheme: ButtonTextTheme.primary,),
-          
+        primaryColor: Color(0xFF607D8B), // Primary color
+        scaffoldBackgroundColor: Color(0xFF212121), // Background color for scaffolds
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.blue[900], // Button color
+          textTheme: ButtonTextTheme.primary,
+        ),
+        textTheme: TextTheme(
+          // Text color for various text widgets
+          headline1: TextStyle(color: Color(0xFFD9D9D9)),
+          headline2: TextStyle(color: Color(0xFFD9D9D9)),
+          // You can continue specifying other text styles as needed
+        ),
       ),
       home: LoginPage(), // Set the login page as the home page
     );
   }
 }
-
-
-
-
-  

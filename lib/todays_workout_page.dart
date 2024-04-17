@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:workout_app/profile_page.dart';
+import 'package:workout_app/bottom_navbar.dart';
+import 'package:workout_app/calendar_page.dart';
+
 class TodaysWorkoutPage extends StatefulWidget {
   final int workoutId;
 
@@ -58,6 +62,7 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Today's Workout"),
+        backgroundColor: Color(0xFF607D8B), // Matching the color from the ViewWorkoutPage
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator()) // Show loading indicator while fetching data
@@ -68,12 +73,12 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
                 children: [
                   Text(
                     'Workout Title: $workoutTitle',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
                   ),
                   SizedBox(height: 20),
                   Text(
                     'Lifts:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
                   ),
                   SizedBox(height: 10),
                   Expanded(
@@ -82,8 +87,14 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
                       itemBuilder: (context, index) {
                         final lift = lifts[index];
                         return ListTile(
-                          title: Text(lift['LIFT_TITLE']),
-                          subtitle: Text('Sets: ${lift['SETS']}, Reps: ${lift['REPS']}'),
+                          title: Text(
+                            lift['LIFT_TITLE'],
+                            style: TextStyle(color: Colors.white), // Adjusted the text color
+                          ),
+                          subtitle: Text(
+                            'Sets: ${lift['SETS']}, Reps: ${lift['REPS']}',
+                            style: TextStyle(color: Colors.white70), // Adjusted the text color
+                          ),
                           trailing: Checkbox(
                             value: lift['ISCOMPLETED'] == 1,
                             onChanged: (value) async {
@@ -122,6 +133,7 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
                                 });
                               }
                             },
+                            activeColor: Color(0xFF37474F), // Change the checkbox color when checked
                           ),
                         );
                       },
@@ -130,6 +142,25 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
                 ],
               ),
             ),
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: 1,
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CalendarPage()),
+            );
+          } else if(index ==1){
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }else if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage(userID: 1)),
+            );
+          }
+        },
+      ),
     );
   }
 }
