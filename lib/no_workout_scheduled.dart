@@ -32,80 +32,78 @@ class _NoWorkoutScheduledPageState extends State<NoWorkoutScheduledPage> {
     }
   }
 
-Future<void> _addWorkoutToToday(BuildContext context, int workoutId) async {
-  DateTime today = DateTime.now();
-  String todayDate = DateFormat('yyyy-MM-dd').format(today);
+  Future<void> _addWorkoutToToday(BuildContext context, int workoutId) async {
+    DateTime today = DateTime.now();
+    String todayDate = DateFormat('yyyy-MM-dd').format(today);
 
-  try {
-    final response = await http.post(
-      Uri.parse('http://localhost:3000/calendar'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'date': todayDate,
-        'workoutId': workoutId,
-      }),
-    );
-    if (response.statusCode == 201) {
-      print('Workout added to today\'s date successfully');
-      // Navigate to TodaysWorkoutPage
-      Navigator.pushReplacementNamed(context, '/todays_workout');
-    } else {
-      print('Failed to add workout to today\'s date');
-    }
-  } catch (e) {
-    print('Error adding workout to today\'s date: $e');
-  }
-}
-
-
-
-
- Future<void> _showWorkoutList(BuildContext context) async {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Available Workouts'),
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            for (var workout in _workoutsData)
-              ListTile(
-                title: Text(workout['TITLE']),
-                onTap: () {
-                  // Add the workout to today's date and update TodaysWorkoutPage
-                  _addWorkoutToToday(context, workout['ID']);
-                  Navigator.pop(context); // Close the dialog
-                  // Navigate and refresh TodaysWorkoutPage
-                  Navigator.pop(context); // Pop the NoWorkoutScheduledPage
-                },
-              ),
-          ],
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog
-              // Navigate and refresh TodaysWorkoutPage
-              Navigator.pop(context); // Pop the NoWorkoutScheduledPage
-            },
-            child: Text('Close'),
-          ),
-        ],
+    try {
+      final response = await http.post(
+        Uri.parse('http://localhost:3000/calendar'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'date': todayDate,
+          'workoutId': workoutId,
+        }),
       );
-    },
-  );
-}
+      if (response.statusCode == 201) {
+        print('Workout added to today\'s date successfully');
+        // Navigate to TodaysWorkoutPage
+        Navigator.pushReplacementNamed(context, '/todays_workout');
+      } else {
+        print('Failed to add workout to today\'s date');
+      }
+    } catch (e) {
+      print('Error adding workout to today\'s date: $e');
+    }
+  }
 
+  Future<void> _showWorkoutList(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Available Workouts'),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var workout in _workoutsData)
+                ListTile(
+                  title: Text(workout['TITLE']),
+                  onTap: () {
+                    // Add the workout to today's date and update TodaysWorkoutPage
+                    _addWorkoutToToday(context, workout['ID']);
+                    Navigator.pop(context); // Close the dialog
+                    // Navigate and refresh TodaysWorkoutPage
+                    Navigator.pop(context); // Pop the NoWorkoutScheduledPage
+                  },
+                ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                // Navigate and refresh TodaysWorkoutPage
+                Navigator.pop(context); // Pop the NoWorkoutScheduledPage
+              },
+              child: Text('Close',
+              style: TextStyle(color: Colors.blue[900])),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("No Workout Scheduled"),
+        backgroundColor: Color(0xFF607D8B), // Matching the color from the TodaysWorkoutPage
       ),
       body: Center(
         child: Column(
@@ -113,7 +111,7 @@ Future<void> _addWorkoutToToday(BuildContext context, int workoutId) async {
           children: [
             Text(
               "No workout scheduled for today",
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20, color: Color(0xFF607D8B)), // Adjusted the text color
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -121,7 +119,11 @@ Future<void> _addWorkoutToToday(BuildContext context, int workoutId) async {
                 // Show the list of available workouts
                 _showWorkoutList(context);
               },
-              child: Text("Add/Create a Workout"),
+              child: Text("Add a Workout",
+              style: TextStyle(color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                primary: Color(0xFF607D8B), // Matching the color from the TodaysWorkoutPage
+              ),
             ),
           ],
         ),

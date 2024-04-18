@@ -222,7 +222,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     onPressed: () async {
                       await showWorkoutList(context, selectedDate);
                     },
-                    child: Text('View Workouts',
+                    child: Text('Add Workout',
                     style: TextStyle(color: Colors.blue[900]),),
                   ),
                 ],
