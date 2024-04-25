@@ -49,7 +49,7 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
       }
 
       setState(() {
-        _isLoading = false; // Set loading state to false after data is fetched
+        _isLoading = false;  
       });
     } catch (e) {
       print('Error fetching data: $e');
@@ -62,7 +62,7 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Today's Workout"),
-        backgroundColor: Color(0xFF607D8B), // Matching the color from the ViewWorkoutPage
+        backgroundColor: Color(0xFF607D8B),  
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator()) // Show loading indicator while fetching data
@@ -73,12 +73,12 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
                 children: [
                   Text(
                     'Workout Title: $workoutTitle',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),  
                   ),
                   SizedBox(height: 20),
                   Text(
                     'Lifts:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),  
                   ),
                   SizedBox(height: 10),
                   Expanded(
@@ -89,11 +89,11 @@ class _TodaysWorkoutPageState extends State<TodaysWorkoutPage> {
                         return ListTile(
                           title: Text(
                             lift['LIFT_TITLE'],
-                            style: TextStyle(color: Colors.white), // Adjusted the text color
+                            style: TextStyle(color: Colors.white),  
                           ),
                           subtitle: Text(
                             'Sets: ${lift['SETS']}, Reps: ${lift['REPS']}',
-                            style: TextStyle(color: Colors.white70), // Adjusted the text color
+                            style: TextStyle(color: Colors.white70),  
                           ),
                           trailing: Checkbox(
                             value: lift['ISCOMPLETED'] == 1,

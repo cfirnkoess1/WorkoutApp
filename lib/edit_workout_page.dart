@@ -12,7 +12,7 @@ class EditWorkoutPage extends StatefulWidget {
 }
 
 class _EditWorkoutPageState extends State<EditWorkoutPage> {
-  List<Map<String, dynamic>> _lifts = []; // Store lifts data here
+  List<Map<String, dynamic>> _lifts = []; 
   TextEditingController _liftTitleController = TextEditingController();
   TextEditingController _setsController = TextEditingController();
   TextEditingController _repsController = TextEditingController();
@@ -36,8 +36,6 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
   }
 
   void _editLift(int liftId) {
-    // Navigate to a page for editing the selected lift
-    // You can pass the liftId to the edit page if needed
   }
 
   void _deleteLift(int liftId) async {
@@ -49,7 +47,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
       print('Failed to delete lift');
     }
   }
-
+//add lift functino
   void _addLift() {
     showDialog(
       context: context,
@@ -129,7 +127,7 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Workout'),
-        backgroundColor: Color(0xFF607D8B), // Matching the color from other pages
+        backgroundColor: Color(0xFF607D8B), 
       ),
       body: ListView.builder(
         itemCount: _lifts.length,
@@ -138,11 +136,11 @@ class _EditWorkoutPageState extends State<EditWorkoutPage> {
           return ListTile(
             title: Text(
               lift['LIFT_TITLE'],
-              style: TextStyle(color: Colors.white), // Adjusted text color to be lighter
+              style: TextStyle(color: Colors.white), 
             ),
             subtitle: Text(
               'Sets: ${lift['SETS']}, Reps: ${lift['REPS']}',
-              style: TextStyle(color: Colors.white), // Adjusted text color to be lighter
+              style: TextStyle(color: Colors.white), 
             ),
             onTap: () {
               _editLift(lift['ID']); // Navigate to edit lift page

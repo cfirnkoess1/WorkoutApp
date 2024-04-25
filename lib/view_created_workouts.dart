@@ -70,14 +70,14 @@ class _ViewCreatedWorkoutsPageState extends State<ViewCreatedWorkoutsPage> {
           return Card(
             elevation: 3,
             margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            color: Color(0xFF212121), // Set card background color to the second color in the palette
+            color: Color(0xFF212121),  
             child: ListTile(
               title: Text(
                 workout['TITLE'],
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFFD9D9D9), // Set text color to the third color in the palette
+                  color: Color(0xFFD9D9D9),  
                 ),
               ),
               trailing: Row(
@@ -85,21 +85,21 @@ class _ViewCreatedWorkoutsPageState extends State<ViewCreatedWorkoutsPage> {
                 children: [
                   IconButton(
                     icon: Icon(Icons.remove_red_eye),
-                    color: Colors.grey[500], // Set icon color to the fourth color in the palette
+                    color: Colors.grey[500],  
                     onPressed: () {
                       _viewWorkout(workout['ID']);
                     },
                   ),
                   IconButton(
                     icon: Icon(Icons.edit),
-                    color: Colors.blue[800], // Set icon color to the fifth color in the palette
+                    color: Colors.blue[800],  
                     onPressed: () {
                       _editWorkout(workout['ID']);
                     },
                   ),
                   IconButton(
                     icon: Icon(Icons.delete),
-                    color: Colors.red[400], // Set icon color to the first color in the palette
+                    color: Colors.red[400],  
                     onPressed: () {
                       _deleteWorkout(workout['ID']);
                     },

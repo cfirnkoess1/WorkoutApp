@@ -111,7 +111,7 @@ class _NoWorkoutScheduledPageState extends State<NoWorkoutScheduledPage> {
           children: [
             Text(
               "No workout scheduled for today",
-              style: TextStyle(fontSize: 20, color: Color(0xFF607D8B)), // Adjusted the text color
+              style: TextStyle(fontSize: 20, color: Color(0xFF607D8B)),  
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -122,7 +122,7 @@ class _NoWorkoutScheduledPageState extends State<NoWorkoutScheduledPage> {
               child: Text("Add a Workout",
               style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFF607D8B), // Matching the color from the TodaysWorkoutPage
+                primary: Color(0xFF607D8B),
               ),
             ),
           ],

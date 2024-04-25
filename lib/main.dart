@@ -11,17 +11,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Workout APP',
       theme: ThemeData(
-        primaryColor: Color(0xFF607D8B), // Primary color
-        scaffoldBackgroundColor: Color(0xFF212121), // Background color for scaffolds
+        primaryColor: Color(0xFF607D8B),  
+        scaffoldBackgroundColor: Color(0xFF212121),
         buttonTheme: ButtonThemeData(
-          buttonColor: Colors.blue[900], // Button color
+          buttonColor: Colors.blue[900],  
           textTheme: ButtonTextTheme.primary,
         ),
         textTheme: TextTheme(
           // Text color for various text widgets
           headline1: TextStyle(color: Color(0xFFD9D9D9)),
-          headline2: TextStyle(color: Color(0xFFD9D9D9)),
-          // You can continue specifying other text styles as needed
+          headline2: TextStyle(color: Color(0xFFD9D9D9)), 
         ),
       ),
       home: LoginPage(), // Set the login page as the home page

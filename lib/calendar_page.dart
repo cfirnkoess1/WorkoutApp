@@ -16,8 +16,8 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   late DateTime _currentDate;
-  List<dynamic> _calendarData = []; // Store response data here
-  List<dynamic> _workoutsData = []; // Store workouts data here
+  List<dynamic> _calendarData = []; 
+  List<dynamic> _workoutsData = []; 
 
   @override
   void initState() {
@@ -26,7 +26,7 @@ class _CalendarPageState extends State<CalendarPage> {
     _fetchCalendarData();
     _fetchWorkoutsData();
   }
-
+//get the calendar data
   Future<void> _fetchCalendarData() async {
     final response = await http.get(Uri.parse('http://localhost:3000/calendar/'));
     if (response.statusCode == 200) {
@@ -38,7 +38,7 @@ class _CalendarPageState extends State<CalendarPage> {
       print('Failed to fetch calendar data');
     }
   }
-
+//get the workout data
   Future<void> _fetchWorkoutsData() async {
     final response = await http.get(Uri.parse('http://localhost:3000/workout'));
     if (response.statusCode == 200) {
@@ -50,7 +50,7 @@ class _CalendarPageState extends State<CalendarPage> {
       print('Failed to fetch workouts data');
     }
   }
-
+//get the title of the workout you are searching for to put on top of the popup
   Future<String?> getWorkoutTitle(int workoutId) async {
     try {
       final response = await http.get(Uri.parse('http://localhost:3000/workout/$workoutId'));
@@ -66,7 +66,7 @@ class _CalendarPageState extends State<CalendarPage> {
       return null;
     }
   }
-
+//show a workout when you click the calendar
   Future<void> showWorkoutTitle(BuildContext context, int workoutId, DateTime selectedDate) async {
     String? workoutTitle = await getWorkoutTitle(workoutId);
     if (workoutTitle != null) {
@@ -108,10 +108,10 @@ class _CalendarPageState extends State<CalendarPage> {
         },
       );
     } else {
-      // Handle error or display a message indicating failure to fetch workout title
+      
     }
   }
-
+//delete workout function
  Future<void> _removeWorkoutFromCalendar(DateTime selectedDate) async {
   try {
     String dateString = DateFormat('yyyy-MM-dd').format(selectedDate);
@@ -158,9 +158,10 @@ class _CalendarPageState extends State<CalendarPage> {
       body: Center(
         child: _buildCalendar(),
       ),
-      backgroundColor: const Color(0xFF212121), // Background color same as home page
+      backgroundColor: const Color(0xFF212121), 
+      //navbar on the page 
       bottomNavigationBar: BottomNavBar(
-        currentIndex: 0, // Set the current index for the calendar page
+        currentIndex: 0, 
         onTap: (index) {
           if (index == 1) {
             Navigator.pushReplacement(
@@ -176,7 +177,7 @@ class _CalendarPageState extends State<CalendarPage> {
       ),
     );
   }
-
+//actual build calendar widget
   Widget _buildCalendar() {
     return TableCalendar(
       firstDay: DateTime.utc(_currentDate.year, _currentDate.month),
@@ -189,14 +190,14 @@ class _CalendarPageState extends State<CalendarPage> {
         color: Colors.white ),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: TextStyle(color: Colors.white), // Set weekday text color to white
-        weekendStyle: TextStyle(color: Colors.red), // Set weekend text color to red
+        weekdayStyle: TextStyle(color: Colors.white), 
+        weekendStyle: TextStyle(color: Colors.red), 
       ),
       calendarStyle: CalendarStyle(
         todayDecoration: BoxDecoration(color: Colors.blue.withOpacity(0.5)),
         selectedDecoration: BoxDecoration(color: Colors.blue),
         markersMaxCount: 2,
-        defaultTextStyle: TextStyle(color: Colors.white), // Set default text color to white
+        defaultTextStyle: TextStyle(color: Colors.white), 
       ),
       onDaySelected: (selectedDate, focusedDate) async {
         int? workoutId = getWorkoutIdForDate(selectedDate);

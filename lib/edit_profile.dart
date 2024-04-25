@@ -12,6 +12,7 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  //set all of the  variables for the edit function
   TextEditingController _nameController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _usernameController = TextEditingController();
@@ -36,10 +37,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
     print('password: $newPassword');
     print('email: $newEmail');
 
-    // Example API endpoint for updating profile
+    
     String apiUrl = 'http://localhost:3000/profile/${widget.userID}';
 
     try {
+      //try to update the values
       var request = http.Request('PUT', Uri.parse(apiUrl));
       request.headers.addAll({
         'Content-Type': 'application/json',
@@ -101,62 +103,62 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     controller: _nameController,
                     decoration: InputDecoration(
                       labelText: 'Name',
-                      labelStyle: TextStyle(color: Colors.white), // Set label text color
+                      labelStyle: TextStyle(color: Colors.white), 
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Color(0xFF37474F)),
                       ),
                     ),
-                    cursorColor: Colors.blue, // Set cursor color
-                    style: TextStyle(color: Colors.white), // Set text color
+                    cursorColor: Colors.blue, 
+                    style: TextStyle(color: Colors.white), 
                   ),
                   TextField(
                     controller: _descriptionController,
                     decoration: InputDecoration(
                       labelText: 'Description',
-                      labelStyle: TextStyle(color: Colors.white), // Set label text color
+                      labelStyle: TextStyle(color: Colors.white), 
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Color(0xFF37474F)),
                       ),
                     ),
-                    cursorColor: Color(0xFF37474F), // Set cursor color
-                    style: TextStyle(color: Colors.white), // Set text color
+                    cursorColor: Color(0xFF37474F), 
+                    style: TextStyle(color: Colors.white), 
                   ),
                   TextField(
                     controller: _usernameController,
                     decoration: InputDecoration(
                       labelText: 'Username',
-                      labelStyle: TextStyle(color: Colors.white), // Set label text color
+                      labelStyle: TextStyle(color: Colors.white), 
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Color(0xFF37474F)),
                       ),
                     ),
-                    cursorColor: Color(0xFF37474F), // Set cursor color
-                    style: TextStyle(color: Colors.white), // Set text color
+                    cursorColor: Color(0xFF37474F), 
+                    style: TextStyle(color: Colors.white), 
                   ),
                   TextField(
                     controller: _passwordController,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      labelStyle: TextStyle(color: Colors.white), // Set label text color
+                      labelStyle: TextStyle(color: Colors.white), 
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Color(0xFF37474F)),
                       ),
                     ),
-                    cursorColor: Color(0xFF37474F), // Set cursor color
-                    style: TextStyle(color: Colors.white), // Set text color
+                    cursorColor: Color(0xFF37474F), 
+                    style: TextStyle(color: Colors.white), 
                     obscureText: true,
                   ),
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
                       labelText: 'Email',
-                      labelStyle: TextStyle(color: Colors.white), // Set label text color
+                      labelStyle: TextStyle(color: Colors.white), 
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Color(0xFF37474F)),
                       ),
                     ),
-                    cursorColor: Color(0xFF37474F), // Set cursor color
-                    style: TextStyle(color: Colors.white), // Set text color
+                    cursorColor: Color(0xFF37474F), 
+                    style: TextStyle(color: Colors.white), 
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
@@ -166,10 +168,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     },
                     child: Text(
                       'Save Changes',
-                      style: TextStyle(color: Colors.white), // Set text color
+                      style: TextStyle(color: Colors.white), 
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF37474F), // Set button background color
+                      primary: Color(0xFF37474F), 
                     ),
                   ),
                 ],

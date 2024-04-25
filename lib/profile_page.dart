@@ -40,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile Page'),
-        backgroundColor: Color(0xFF607D8B), // Matching the color from the CreateWorkoutPage
+        backgroundColor: Color(0xFF607D8B),  
       ),
       body: _userData == null
           ? Center(child: CircularProgressIndicator())
@@ -52,38 +52,38 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(height: 20),
                   Text(
                     'Name:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),  
                   ),
                   Text(
                     '${_userData!['NAME']}',
-                    style: TextStyle(fontSize: 16, color: Colors.white), // Adjusted the text color
+                    style: TextStyle(fontSize: 16, color: Colors.white),  
                   ),
                   SizedBox(height: 20),
                   Text(
                     'Description:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),  
                   ),
                   Text(
                     '${_userData!['DESCRIPTION']}',
-                    style: TextStyle(fontSize: 16, color: Colors.white), // Adjusted the text color
+                    style: TextStyle(fontSize: 16, color: Colors.white), 
                   ),
                   SizedBox(height: 20),
                   Text(
                     'Username:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), 
                   ),
                   Text(
                     '${_userData!['USERNAME']}',
-                    style: TextStyle(fontSize: 16, color: Colors.white), // Adjusted the text color
+                    style: TextStyle(fontSize: 16, color: Colors.white), 
                   ),
                   SizedBox(height: 20),
                   Text(
                     'Email:',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), // Adjusted the text color
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                   Text(
                     '${_userData!['EMAIL']}',
-                    style: TextStyle(fontSize: 16, color: Colors.white), // Adjusted the text color
+                    style: TextStyle(fontSize: 16, color: Colors.white), 
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
@@ -93,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       context,
                       MaterialPageRoute(builder: (context) => EditProfilePage(userID: widget.userID)),
                     ).then((result) {
-                      // Update UI if result is true (indicating successful update)
+                      // Update UI if result is true 
                       if (result == true) {
                         // Fetch updated user data
                         fetchUserData(widget.userID);
@@ -104,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Text('Edit Profile',
                     style: TextStyle(color: Colors.white),),
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF607D8B), // Matching the color from the CreateWorkoutPage
+                      primary: Color(0xFF607D8B),  
                     ),
                   ),
                 ],

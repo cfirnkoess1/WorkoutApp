@@ -28,14 +28,14 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
       'userId': widget.userId,
     });
 
-    // Example API endpoint for creating a workout
+    
     String apiUrl = 'http://localhost:3000/workout';
 
     try {
       var response = await http.post(
         Uri.parse(apiUrl),
         headers: {
-          'Content-Type': 'application/json', // Set Content-Type header to application/json
+          'Content-Type': 'application/json', 
         },
         body: requestBody,
       );
@@ -64,13 +64,13 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
       print('Error creating workout: $error');
     }
   }
-
+//begin building the widget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Workout'),
-        backgroundColor: Color(0xFF607D8B), // Set app bar color to the first color in the palette
+        backgroundColor: Color(0xFF607D8B), 
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -81,11 +81,11 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
               controller: _titleController,
               decoration: InputDecoration(
                 labelText: 'Workout Title',
-                labelStyle: TextStyle(color: Colors.white70), // Set label text color
+                labelStyle: TextStyle(color: Colors.white70), 
     focusedBorder: UnderlineInputBorder(
       borderSide: BorderSide(color: Colors.white)),),
               
-              cursorColor: Color.fromARGB(255, 115, 136, 146), // Set cursor color
+              cursorColor: Color.fromARGB(255, 115, 136, 146), 
   style: TextStyle(color: Colors.white),
             ),
             SizedBox(height: 20),
@@ -96,10 +96,10 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
               },
               child: Text(
                 'Create Workout',
-                style: TextStyle(color: Colors.white), // Set button text color
+                style: TextStyle(color: Colors.white), 
               ),
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFF607D8B), // Set button background color to the first color in the palette
+                primary: Color(0xFF607D8B), 
               ),
             ),
             SizedBox(height: 20),
@@ -113,10 +113,10 @@ class _CreateWorkoutPageState extends State<CreateWorkoutPage> {
               },
               child: Text(
                 'View Created Workouts',
-                style: TextStyle(color: Colors.white), // Set button text color
+                style: TextStyle(color: Colors.white), 
               ),
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFF607D8B), // Set button background color to the first color in the palette
+                primary: Color(0xFF607D8B), 
               ),
             ),
           ],

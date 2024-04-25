@@ -14,19 +14,19 @@ class LoginApp extends StatelessWidget {
     return MaterialApp(
       title: 'Login App',
       theme: ThemeData(
-        primaryColor: Color(0xFF607D8B), // Primary color
-        scaffoldBackgroundColor: Color(0xFF212121), // Background color for scaffolds
+        primaryColor: Color(0xFF607D8B),  
+        scaffoldBackgroundColor: Color(0xFF212121),  
         textTheme: TextTheme(
-          // Text color for various text widgets
+          
           bodyText1: TextStyle(color: Color(0xFFD9D9D9)),
           bodyText2: TextStyle(color: Color(0xFFD9D9D9)),
         ),
         buttonTheme: ButtonThemeData(
-          buttonColor: Color(0xFFADD5F7), // Button color
+          buttonColor: Color(0xFFADD5F7),  
           textTheme: ButtonTextTheme.primary,
         ),
         textSelectionTheme: TextSelectionThemeData(
-          cursorColor: Color(0xFFADD5F7), // Cursor color
+          cursorColor: Color(0xFFADD5F7), 
         ),
       ),
       home: LoginPage(),
@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
     final USERNAME = _usernameController.text;
     final PASSWORD = _passwordController.text;
 
-    // Construct the URI for the profile API endpoint
+     
     final uri = Uri.parse('http://localhost:3000/profile/$USERNAME');
 
     // Make the HTTP request
@@ -103,12 +103,12 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             TextField(
               controller: _usernameController,
-              style: TextStyle(color: Color(0xFFD9D9D9)), // Text color for text fields
+              style: TextStyle(color: Color(0xFFD9D9D9)), 
               decoration: InputDecoration(
                 labelText: 'Username',
-                labelStyle: TextStyle(color: Color(0xFFD9D9D9)), // Label color for text fields
+                labelStyle: TextStyle(color: Color(0xFFD9D9D9)),  
                 focusedBorder: UnderlineInputBorder( // Remove purple underline
-                  borderSide: BorderSide(color: Color(0xFFADD5F7)), // Use button color
+                  borderSide: BorderSide(color: Color(0xFFADD5F7)),  
                 ),
               ),
               cursorColor: Color(0xFFADD5F7), // Set cursor color to match underline color
@@ -116,12 +116,12 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 20),
             TextField(
               controller: _passwordController,
-              style: TextStyle(color: Color(0xFFD9D9D9)), // Text color for text fields
+              style: TextStyle(color: Color(0xFFD9D9D9)),  
               decoration: InputDecoration(
                 labelText: 'Password',
-                labelStyle: TextStyle(color: Color(0xFFD9D9D9)), // Label color for text fields
-                focusedBorder: UnderlineInputBorder( // Remove purple underline
-                  borderSide: BorderSide(color: Color(0xFFADD5F7)), // Use button color
+                labelStyle: TextStyle(color: Color(0xFFD9D9D9)),  // Remove purple underline
+                focusedBorder: UnderlineInputBorder( 
+                  borderSide: BorderSide(color: Color(0xFFADD5F7)),  
                 ),
               ),
               cursorColor: Color(0xFFADD5F7), // Set cursor color to match underline color
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => _login(context),
-              style: ButtonStyle( // Set button text color
+              style: ButtonStyle(  
                 foregroundColor: MaterialStateProperty.all<Color>(Color(0xFF607D8B)),
               ),
               child: Text('Login'),
@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Text(
                   _errorMessage,
-                  style: TextStyle(color: Colors.red), // Text color for error message
+                  style: TextStyle(color: Colors.red),  
                 ),
               ),
           ],

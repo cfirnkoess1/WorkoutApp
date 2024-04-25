@@ -53,7 +53,7 @@ class _LiftCreationPageState extends State<LiftCreationPage> {
         var response = await http.post(
           Uri.parse(apiUrl),
           headers: {
-            'Content-Type': 'application/json', // Set Content-Type header to application/json
+            'Content-Type': 'application/json', 
           },
           body: requestBody,
         );
@@ -75,7 +75,6 @@ class _LiftCreationPageState extends State<LiftCreationPage> {
         ),
       );
     } catch (error) {
-      // Handle errors from the HTTP request
       print('Error saving lifts: $error');
     }
   }
@@ -85,7 +84,7 @@ class _LiftCreationPageState extends State<LiftCreationPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Lifts'),
-        backgroundColor: Color(0xFF607D8B), // Matching the color from the CreateWorkoutPage
+        backgroundColor: Color(0xFF607D8B), 
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -96,51 +95,51 @@ class _LiftCreationPageState extends State<LiftCreationPage> {
               controller: _nameController,
               decoration: InputDecoration(
                 labelText: 'Lift Name',
-                labelStyle: TextStyle(color: Colors.white70), // Adjusted the label color
+                labelStyle: TextStyle(color: Colors.white70), 
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
                 ),
               ),
-              cursorColor: Color(0xFF738892), // Matching the color from the CreateWorkoutPage
-              style: TextStyle(color: Colors.white), // Adjusted the text color
+              cursorColor: Color(0xFF738892), 
+              style: TextStyle(color: Colors.white), 
             ),
             SizedBox(height: 10),
             TextField(
               controller: _setsController,
               decoration: InputDecoration(
                 labelText: 'Sets',
-                labelStyle: TextStyle(color: Colors.white70), // Adjusted the label color
+                labelStyle: TextStyle(color: Colors.white70), 
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
                 ),
               ),
               keyboardType: TextInputType.number,
-              cursorColor: Color(0xFF738892), // Matching the color from the CreateWorkoutPage
-              style: TextStyle(color: Colors.white), // Adjusted the text color
+              cursorColor: Color(0xFF738892),  
+              style: TextStyle(color: Colors.white), 
             ),
             SizedBox(height: 10),
             TextField(
               controller: _repsController,
               decoration: InputDecoration(
                 labelText: 'Reps',
-                labelStyle: TextStyle(color: Colors.white70), // Adjusted the label color
+                labelStyle: TextStyle(color: Colors.white70),  
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
                 ),
               ),
               keyboardType: TextInputType.number,
-              cursorColor: Color(0xFF738892), // Matching the color from the CreateWorkoutPage
-              style: TextStyle(color: Colors.white), // Adjusted the text color
+              cursorColor: Color(0xFF738892),  
+              style: TextStyle(color: Colors.white), 
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _addLift,
               child: Text(
                 'Add Lift',
-                style: TextStyle(color: Colors.white), // Adjusted the text color
+                style: TextStyle(color: Colors.white),  
               ),
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFF607D8B), // Matching the color from the CreateWorkoutPage
+                primary: Color(0xFF607D8B),  
               ),
             ),
             SizedBox(height: 20),
@@ -152,11 +151,11 @@ class _LiftCreationPageState extends State<LiftCreationPage> {
                   return ListTile(
                     title: Text(
                       lift['liftTitle'],
-                      style: TextStyle(color: Colors.white), // Adjusted the text color
+                      style: TextStyle(color: Colors.white),  
                     ),
                     subtitle: Text(
                       'Sets: ${lift['sets']}, Reps: ${lift['reps']}',
-                      style: TextStyle(color: Colors.white70), // Adjusted the text color
+                      style: TextStyle(color: Colors.white70),  
                     ),
                   );
                 },
@@ -167,10 +166,10 @@ class _LiftCreationPageState extends State<LiftCreationPage> {
               onPressed: _saveLifts,
               child: Text(
                 'Save Workout',
-                style: TextStyle(color: Colors.white), // Adjusted the text color
+                style: TextStyle(color: Colors.white),  
               ),
               style: ElevatedButton.styleFrom(
-                primary: Color(0xFF607D8B), // Matching the color from the CreateWorkoutPage
+                primary: Color(0xFF607D8B), 
               ),
             ),
           ],

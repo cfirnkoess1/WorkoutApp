@@ -28,9 +28,9 @@ class HomePage extends StatelessWidget {
           children: [
             Expanded(
               child: GridView.count(
-                crossAxisCount: 2, // Number of columns
-                mainAxisSpacing: 20.0, // Spacing between items vertically
-                crossAxisSpacing: 20.0, // Spacing between items horizontally
+                crossAxisCount: 2, 
+                mainAxisSpacing: 20.0, 
+                crossAxisSpacing: 20.0, 
                 children: [
                   ElevatedButton(
                     onPressed: () {
@@ -41,13 +41,13 @@ class HomePage extends StatelessWidget {
                     },
                     child: Text(
                       'Go to Calendar Page',
-                      style: TextStyle(color: Color(0xFFD9D9D9)), // Text color
+                      style: TextStyle(color: Color(0xFFD9D9D9)),
                     ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(45.0),
                       ),
-                      primary: Color(0xFF37474F), // Steely blue
+                      primary: Color(0xFF37474F), 
                     ),
                   ),
                   ElevatedButton(
@@ -59,13 +59,13 @@ class HomePage extends StatelessWidget {
                     },
                     child: Text(
                       'View Created Workouts',
-                      style: TextStyle(color: Color(0xFFD9D9D9)), // Text color
+                      style: TextStyle(color: Color(0xFFD9D9D9)), 
                     ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(45.0),
                       ),
-                      primary: Color(0xFF37474F), // Steely blue
+                      primary: Color(0xFF37474F), 
                     ),
                   ),
                   ElevatedButton(
@@ -77,13 +77,13 @@ class HomePage extends StatelessWidget {
                     },
                     child: Text(
                       'Create Workout',
-                      style: TextStyle(color: Color(0xFFD9D9D9)), // Text color
+                      style: TextStyle(color: Color(0xFFD9D9D9)), 
                     ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(45.0),
                       ),
-                      primary: Color(0xFF37474F), // Steely blue
+                      primary: Color(0xFF37474F), 
                     ),
                   ),
                   ElevatedButton(
@@ -95,13 +95,13 @@ class HomePage extends StatelessWidget {
                     },
                     child: Text(
                       'View User Profile',
-                      style: TextStyle(color: Color(0xFFD9D9D9)), // Text color
+                      style: TextStyle(color: Color(0xFFD9D9D9)), 
                     ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(45.0),
                       ),
-                      primary: Color(0xFF37474F), // Steely blue
+                      primary: Color(0xFF37474F), 
                     ),
                   ),
                 ],
@@ -114,14 +114,14 @@ class HomePage extends StatelessWidget {
               },
               child: Text(
                 "Today's Workout",
-                style: TextStyle(color: Color(0xFFD9D9D9)), // Text color
+                style: TextStyle(color: Color(0xFFD9D9D9)),
               ),
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 150),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(45.0),
                 ),
-                primary: Color(0xFF37474F), // Button color
+                primary: Color(0xFF37474F), 
               ),
             ),
           ],
