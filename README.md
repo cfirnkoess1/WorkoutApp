@@ -1,138 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workout Scheduling App</title>
-    <style>
-        /* Styles for header */
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
+# workout_app
 
-        /* Styles for cards */
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            padding: 20px;
-            gap: 20px;
-        }
+A new Flutter project.
 
-        .card {
-            width: calc(50% - 20px); /* Two cards per row with some gap */
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            transition: 0.3s;
-            background-color: #f9f9f9;
-            margin-bottom: 20px;
-        }
+## Getting Started
 
-        /* Styles for headings */
-        h2 {
-            color: #333;
-            padding: 20px 0;
-            text-align: center;
-        }
+This project is a starting point for a Flutter application.
 
-        /* Styles for paragraphs */
-        p {
-            color: #555;
-            line-height: 1.6;
-            margin: 0 20px 20px; /* Add margin to paragraphs for separation */
-        }
+A few resources to get you started if this is your first Flutter project:
 
-        /* Styles for images */
-        .images-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-        
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-        img {
-            max-width: 400px;
-            max-height: 100px;
-            margin-right: 10px;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Workout Scheduling App</h1>
-        <h3>Carson Firnkoess</h3>
-    </header>
-
-    <div class="card-container">
-        <div class="card">
-            <h2>Introduction</h2>
-            <p>
-                The Workout Scheduling App is a mobile application designed to assist users in organizing and managing their gym workouts effectively. It provides a user-friendly checklist-based interface where individuals can plan, customize, and track their exercise routines with ease. The app aims to address the common challenge of maintaining consistency and structure in gym schedules, catering to both beginners and experienced fitness enthusiasts.
-            </p>
-        </div>
-
-        <div class="card">
-            <h2>High-Level Functional and Non-Functional Requirements</h2>
-            <p>
-                The app supports a range of high-level functional requirements, including calendar-based scheduling, workout customization, goal setting, and progress tracking. Users can create personalized workout plans and select from preset workout splits Non-functional requirements include aspects such as security, scalability, and operational support. The application prioritizes data security by using industry best practices, and making use of prepared statements to defend against injection attacks.
-            </p>
-        </div>
-
-        <div class="card">
-            <h2>Technologies Used</h2>
-            
-            <p>
-                The development of the Workout Scheduling App utilizes a combination of modern technologies to ensure a robust and efficient solution. Flutter, a cross-platform mobile development framework, is employed for the front-end interface, providing a seamless user experience across different devices. The back-end logic is powered by Express.js, a flexible and lightweight Node.js framework, facilitating the creation of a RESTful API for data management. Data storage is managed using MySQL, a reliable relational database system known for its performance and scalability. The application is coded in the Visual Studio Code IDE, which has been a reliable mainstay for my entire programming career here at GCU.
-            </p>
-            <div class="images-container">
-                <img src="Portfolio_Images/flutter_logo.png" alt="Flutter Logo">
-                <img src="Portfolio_Images/js_logo.png" alt="Express.js Logo">
-                <img src="Portfolio_Images/mysql_logo.png" alt="MySQL Logo">
-                <img src="Portfolio_Images/visual_studio_logo.png" alt="Azure Logo">
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Learning New Technologies</h2>
-            <p>
-                This project gave me the opportunity to learn Flutter, which is a new technology for me, and was also my first attempt at mobile app design. It was difficult learning about the widgets, routing and the way the stack works when displaying pages at first, but as time went on they became more clear and even more preferable than other technologies that I have used in the past. It was quite fun to learn and grow in this new technology.
-            </p>
-            <br>
-            <br>
-            <br>
-            <br>
-            <div class = "images-container">
-                <img src="Portfolio_Images/flutter_wide.png" alt = "Flutter Logo Wide">
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Technical Approach</h2>
-            <p>
-                The technical approach to developing the Workout Scheduling App involves a systematic and structured methodology aimed at delivering a robust and scalable solution. The application follows a client-server architecture, with Flutter serving as the client-side framework for building the front-end interface. Express.js is utilized to develop a RESTful API that handles data interactions between the client and the MySQL database. The database schema is designed to efficiently store and retrieve workout schedules, user profiles, and related information. Design diagrams, including logical and physical system designs, are instrumental in visualizing the architecture and ensuring alignment with project objectives.
-            </p>
-        </div>
-
-        <div class="card">
-            <h2>Risks and Challenges</h2>
-            <p>
-                A few risks I faced were not ever using flutter before, not knowing how to develop a mobile app, and having to learn on the fly while programming. The biggest challenge I faced was making sure every single lift was mapped to a workout. The way I set up the database required a lift to have a confirmed workout ID before being set, and I had to pass the workoutID variable into every place a lift was being shown. Once I figured out the way that worked however, the project went smoothly. Another small challenge I faced was the emulation issue I discovered with my laptop, because 
-            </p>
-        </div>
-
-        <div class="card" style="margin: 0 auto;">
-            <h2>Outstanding Issues</h2>
-            <p>
-                Currently there are a few small bugs in the application, but nothing that will completely break the app. When a user deletes a workout that has been already scheduled and was not removed from the calendar, there is no way to delete or change that date without going into the database. Another issue would be the emulation, but that is an issue with my laptop, and should be easily resolved elsewhere.
-            </p>
-        </div>
-
-       
-    </div>
-
-</body>
-</html>
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
